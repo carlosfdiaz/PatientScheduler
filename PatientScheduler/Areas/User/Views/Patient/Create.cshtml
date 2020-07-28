@@ -1,0 +1,147 @@
+﻿@model Patient
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <i class="far fa-address-card"></i> New Patient Information
+    </div>
+    <div class="card-body mr-3 ml-3">
+        <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="FirstName"></label>
+                        <input asp-for="FirstName" class="form-control">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MiddleName"></label>
+                        <input asp-for="MiddleName" class="form-control" />
+                        <span asp-validation-for="MiddleName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="SSN"></label>
+                        <input asp-for="SSN" id="SSN" class="form-control" />
+                        <span asp-validation-for="SSN" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Gender"></label>
+                        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<PatientScheduler.Models.Enums.Gender>()" class="form-control">
+                            <option value="">Select...</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="Phone"></label>
+                        <input asp-for="Phone" id="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-5">
+                    <div class="form-group">
+                        <label asp-for="Address.Street"></label>
+                        <input asp-for="Address.Street" class="form-control mb-3" />
+                    </div>
+                    </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label asp-for="Address.City"></label>
+                        <input asp-for="Address.City" class="form-control mb-3" />
+                    </div>
+                    </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label asp-for="Address.State"></label>
+                        <select asp-for="Address.State" asp-items="Html.GetEnumSelectList<PatientScheduler.Models.Enums.States>()" class="form-control">
+                            <option value="">Select...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label asp-for="Address.Zip"></label>
+                        <input type="text" asp-for="Address.Zip" class="form-control mb-3" />
+                    </div>
+                </div>
+
+                </div>
+            <div class="form-group row">
+                <div class="col-12 text-right">
+                    <input type="submit" class="btn btn-success p-2" value="Submit New Patient" />
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+
+
+</div>
+
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function addDashesPhone(input) {
+
+            var r = /(\D+)/g,
+                npa = '',
+                nxx = '',
+                last4 = '';
+            input.value = input.value.replace(r, '');
+            npa = input.value.substr(0, 3);
+            nxx = input.value.substr(3, 3);
+            last4 = input.value.substr(6, 4);
+            input.value = npa + '-' + nxx + '-' + last4;
+
+        }
+        //SSN input validation add dashes
+        function addDashesSSN(input) {
+
+            var r = /(\D+)/g,
+                npa = '',
+                nxx = '',
+                last4 = '';
+            input.value = input.value.replace(r, '');
+            npa = input.value.substr(0, 3);
+            nxx = input.value.substr(3, 2);
+            last4 = input.value.substr(5, 4);
+            input.value = npa + '-' + nxx + '-' + last4;
+
+        }
+
+        var SSN = document.getElementById("SSN");
+        SSN.addEventListener("keyup", () => {
+            addDashesSSN(SSN);
+        });
+
+        var Phone = document.getElementById("Phone");
+        Phone.addEventListener("keyup", () => {
+            addDashesPhone(Phone);
+        });
+
+    </script>
+}
+
+
+
