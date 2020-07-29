@@ -8,14 +8,14 @@
             <h3>Upcoming Appointments</h3>
         </div>
         <div class="col-6 text-right text-white" >
-            <a class="btn btn-info p-2"><i class="fas fa-user-plus"></i> Create New Patient</a>
+            <a asp-action="Create" asp-controller="Patient" class="btn btn-info p-3"><i class="fas fa-user-plus"></i> Create New Patient</a>
         </div>
     </div>
 </div>
 <p class="lead">Today is @DateTime.Now.DayOfWeek @DateTime.Now.ToString("MMMM dd, yyyy")</p>
 <div class="row">
     <div class="col-6">
-        <div class="card">
+        <div class="card border shadow-sm">
             <div class="card-body">
                 <div class="row">
                     <div class="col-6">
