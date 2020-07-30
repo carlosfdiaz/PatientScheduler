@@ -54,7 +54,7 @@ namespace PatientScheduler.Areas.User.Controllers
         [HttpGet]
         public IActionResult PatientList()
         {
-            return View();
+            return View(_unitOfWork.Patient.GetAll());
         }
     }
 }
