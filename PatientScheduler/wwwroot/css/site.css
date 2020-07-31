@@ -70,3 +70,12 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+
+/*Custom CSS*/
+.col-space{
+    margin-left: 36px !important;
+}
+
+.col-space-extra {
+    margin-left: 47px !important;
+}

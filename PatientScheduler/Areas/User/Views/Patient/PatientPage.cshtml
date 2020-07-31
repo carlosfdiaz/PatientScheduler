@@ -1,0 +1,52 @@
+﻿@model PatientScheduler.Models.Patient
+
+
+@{
+    if (Model != null)
+    {
+        <div class="card">
+            <div class="card-header text-white bg-primary pt-4">
+                <div class="row">
+                    <div class="col-6">
+                        <h5 class="mt-3"><i class="far fa-id-card" style="font-size: 1.5rem;"></i> Patient Information</h5>
+                    </div>
+                    <div class="col-6 text-right">
+                        <a asp-action="EditPatient" asp-route-id="@Model.Id" class="btn btn-grey">Edit Patient Info</a>
+                    </div>
+                    
+                </div>
+               
+            </div>
+            <div class="card-body">
+                <div class="row p-5" style="font-size: 1.1rem;">
+                    <div class="col-6">                       
+                       <h5>Patient Profile</h5>                  
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-1">Name</p>
+                                <p class="mb-1">Gender</p>
+                                <p class="mb-1">Date of Birth</p>
+                                <p class="mb-1">Phone</p>
+                            </div>
+                            <div class="col-6 pl-0">
+                                <p class="mb-1">@Model.FirstName @Model.LastName</p>
+                                <p class="mb-1">@Enum.Parse(typeof(PatientScheduler.Models.Enums.Gender), @Model.Gender)</p>
+                                <p class="mb-1">@Model.DateOfBirth.ToString("MM/dd/yyy")</p>
+                                <p class="mb-1">@Model.Phone</p>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-6">
+                        <h5>Insurance Information</h5>
+                        <a class="btn btn-success">Add Insurance Info</a>
+                    </div>
+                </div>             
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>No records found.</p>
+        }
+
+    }

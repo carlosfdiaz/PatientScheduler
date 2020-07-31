@@ -27,11 +27,23 @@ namespace PatientScheduler.Areas.User.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult PatientPage(int id)
+        {           
+           return View(_unitOfWork.Patient.Get(id));            
+        }
+
         //Get Create New Patient Form
         [HttpGet]
         public IActionResult Create()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult EditPatient(int id)
+        {
+            return View(_unitOfWork.Patient.Get(id));
         }
 
 
@@ -48,7 +60,7 @@ namespace PatientScheduler.Areas.User.Controllers
             _unitOfWork.Patient.Add(PatientVM);
             _unitOfWork.Save();
 
-            return RedirectToAction(nameof(Index), "Home");
+            return RedirectToAction(nameof(PatientPage), PatientVM);
         }
 
         [HttpGet]
