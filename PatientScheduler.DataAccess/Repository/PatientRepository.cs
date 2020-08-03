@@ -24,6 +24,7 @@ namespace PatientScheduler.DataAccess.Repository
             objFromDb.MiddleName = patient.MiddleName;
             objFromDb.LastName = patient.LastName;
             objFromDb.SSN = patient.SSN;
+            objFromDb.Gender = patient.Gender;
             objFromDb.Phone = patient.Phone;
             objFromDb.DateOfBirth = patient.DateOfBirth;
             objFromDb.Address.Street = patient.Address.Street;
@@ -32,6 +33,11 @@ namespace PatientScheduler.DataAccess.Repository
             objFromDb.Address.Zip = patient.Address.Zip;
 
             _db.SaveChanges();
+        }
+
+        public void UpdateInsurance(Patient patient)
+        {
+            var objFromDb = _db.Patients.Include(p => p.Address).SingleOrDefault(p => p.Id == patient.Id);
         }
     }
 }

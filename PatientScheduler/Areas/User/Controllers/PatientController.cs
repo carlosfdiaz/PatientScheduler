@@ -81,5 +81,11 @@ namespace PatientScheduler.Areas.User.Controllers
         {
             return View(_unitOfWork.Patient.GetAll());
         }
+
+        [HttpGet]
+        public IActionResult PatientInsurance()
+        {
+            return View();
+        }
     }
 }

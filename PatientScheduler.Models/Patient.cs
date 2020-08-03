@@ -36,5 +36,12 @@ namespace PatientScheduler.Models
 
         public virtual Address Address { get; set; }
 
+        [ForeignKey("Insurance")]
+        public int? InsuranceId { get; set; }
+
+        public virtual Insurance Insurance { get; set; }
+
+
+
     }
 }
