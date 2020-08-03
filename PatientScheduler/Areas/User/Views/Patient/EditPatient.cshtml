@@ -5,8 +5,9 @@
         <i class="far fa-address-card"></i> Edit Patient Information
     </div>
     <div class="card-body mr-3 ml-3">
-        <form method="put">
+        <form method="post" asp-action="PostEditPatient">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@Model.Id" name="Id"/>
             <div class="form-group row">
 
                 <div class="col-12">
@@ -51,7 +52,7 @@
                     <div class="form-group">
                         <label asp-for="Gender"></label>
                         <select asp-for="Gender" asp-items="Html.GetEnumSelectList<PatientScheduler.Models.Enums.Gender>()" class="form-control">
-                            <option value="">Select...</option>
+                            <option value="@Model.Gender">@Model.Gender</option>
                         </select>
                         <span asp-validation-for="Gender" class="text-danger"></span>
                     </div>
@@ -75,26 +76,30 @@
                     <div class="form-group">
                         <label asp-for="Address.Street"></label>
                         <input asp-for="Address.Street" class="form-control mb-3" />
+                        <span asp-validation-for="Address.Street" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="form-group">
                         <label asp-for="Address.City"></label>
                         <input asp-for="Address.City" class="form-control mb-3" />
+                        <span asp-validation-for="Address.City" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label asp-for="Address.State"></label>
                         <select asp-for="Address.State" asp-items="Html.GetEnumSelectList<PatientScheduler.Models.Enums.States>()" class="form-control">
-                            <option value="">Select...</option>
+                            <option value="@Model.Address.State">@Model.Address.State</option>
                         </select>
+                        <span asp-validation-for="Address.State" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label asp-for="Address.Zip"></label>
                         <input type="text" asp-for="Address.Zip" class="form-control mb-3" />
+                        <span asp-validation-for="Address.Zip" class="text-danger"></span>
                     </div>
                 </div>
 

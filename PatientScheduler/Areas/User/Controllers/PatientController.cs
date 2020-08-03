@@ -43,7 +43,20 @@ namespace PatientScheduler.Areas.User.Controllers
         [HttpGet]
         public IActionResult EditPatient(int id)
         {
-            return View(_unitOfWork.Patient.Get(id));
+            return View(_unitOfWork.Patient.GetFirstOrDefault(x => x.Id == id, "Address"));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PostEditPatient()
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(PatientList));
+            }
+    
+            _unitOfWork.Patient.Update(PatientVM);
+            return RedirectToAction(nameof(PatientPage), PatientVM);
         }
 
 

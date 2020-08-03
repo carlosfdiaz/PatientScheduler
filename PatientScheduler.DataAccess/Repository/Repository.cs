@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace PatientScheduler.DataAccess.Repository
 {
@@ -20,9 +19,9 @@ namespace PatientScheduler.DataAccess.Repository
 
        
 
-        public void Add(T entity)
+        public async void Add(T entity)
         {
-            dbSet.Add(entity);
+            await dbSet.AddAsync(entity);
         }
 
         public T Get(int id)

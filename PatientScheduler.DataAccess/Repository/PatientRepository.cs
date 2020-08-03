@@ -1,4 +1,5 @@
-﻿using PatientScheduler.DataAccess.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PatientScheduler.DataAccess.Data;
 using PatientScheduler.Models;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,17 @@ namespace PatientScheduler.DataAccess.Repository
         }
         public void Update(Patient patient)
         {
-            var objFromDb = _db.Patients.FirstOrDefault(s => s.Id == patient.Id);
+            var objFromDb = _db.Patients.Include(p => p.Address).SingleOrDefault(p => p.Id == patient.Id);
             objFromDb.FirstName = patient.FirstName;
             objFromDb.MiddleName = patient.MiddleName;
             objFromDb.LastName = patient.LastName;
             objFromDb.SSN = patient.SSN;
             objFromDb.Phone = patient.Phone;
+            objFromDb.DateOfBirth = patient.DateOfBirth;
+            objFromDb.Address.Street = patient.Address.Street;
+            objFromDb.Address.City = patient.Address.City;
+            objFromDb.Address.State = patient.Address.State;
+            objFromDb.Address.Zip = patient.Address.Zip;
 
             _db.SaveChanges();
         }
