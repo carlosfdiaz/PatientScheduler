@@ -27,20 +27,36 @@ namespace PatientScheduler.Areas.User.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult PatientPage(int id)
-        {           
-           return View(_unitOfWork.Patient.Get(id));            
+        public IActionResult PatientList()
+        {
+            return View(_unitOfWork.Patient.GetAll());
         }
 
-        //Get Create New Patient Form
-        [HttpGet]
+        public IActionResult PatientPage(int id)
+        {           
+           return View(_unitOfWork.Patient.GetFirstOrDefault(p => p.Id == id, Utility.InsuranceProp + "," + Utility.AddressProp));            
+        }
+
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PostCreate()
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(PatientVM);
+            }
+
+            _unitOfWork.Patient.Add(PatientVM);
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(PatientPage), PatientVM);
+        }
+
         public IActionResult EditPatient(int id)
         {
             return View(_unitOfWork.Patient.GetFirstOrDefault(x => x.Id == id, "Address"));
@@ -59,33 +75,27 @@ namespace PatientScheduler.Areas.User.Controllers
             return RedirectToAction(nameof(PatientPage), PatientVM);
         }
 
+        public IActionResult PatientInsurance(int id)
+        {
+            return View(_unitOfWork.Patient.GetFirstOrDefault(p => p.Id == id));
+        }
 
-        //Submit New Patient Form
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult PostCreate()
+        public IActionResult PostPatientInsurance()
         {
             if (!ModelState.IsValid)
             {
-                return View(PatientVM);
+                RedirectToAction(nameof(PatientInsurance));
             }
 
-            _unitOfWork.Patient.Add(PatientVM);
-            _unitOfWork.Save();
+            _unitOfWork.Patient.UpdateInsurance(PatientVM);
 
             return RedirectToAction(nameof(PatientPage), PatientVM);
         }
 
-        [HttpGet]
-        public IActionResult PatientList()
+        public IActionResult EditPatientInsurance(int id)
         {
-            return View(_unitOfWork.Patient.GetAll());
-        }
-
-        [HttpGet]
-        public IActionResult PatientInsurance()
-        {
-            return View();
+            return View(_unitOfWork.Patient.GetFirstOrDefault(p => p.Id == id, Utility.InsuranceProp));
         }
     }
 }

@@ -20,6 +20,7 @@ namespace PatientScheduler.Models
         public string LastName { get; set; }
 
         [Required]
+        [Display(Name = "Date of Birth")]
         public DateTime DateOfBirth { get; set; }
 
         [Required]

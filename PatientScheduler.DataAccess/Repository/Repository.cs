@@ -15,9 +15,7 @@ namespace PatientScheduler.DataAccess.Repository
         {
             _db = db;
             this.dbSet = _db.Set<T>();
-        }
-
-       
+        }       
 
         public async void Add(T entity)
         {

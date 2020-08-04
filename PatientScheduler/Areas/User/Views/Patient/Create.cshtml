@@ -115,52 +115,7 @@
 
 @section Scripts{
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        function addDashesPhone(input) {
-
-            var r = /(\D+)/g,
-                npa = '',
-                nxx = '',
-                last4 = '';
-            input.value = input.value.replace(r, '');
-            npa = input.value.substr(0, 3);
-            nxx = input.value.substr(3, 3);
-            last4 = input.value.substr(6, 4);
-            input.value = npa + '-' + nxx + '-' + last4;
-
-        }
-        //SSN input validation add dashes
-        function addDashesSSN(input) {
-
-            var r = /(\D+)/g,
-                npa = '',
-                nxx = '',
-                last4 = '';
-            input.value = input.value.replace(r, '');
-            npa = input.value.substr(0, 3);
-            nxx = input.value.substr(3, 2);
-            last4 = input.value.substr(5, 4);
-            input.value = npa + '-' + nxx + '-' + last4;
-
-        }
-
-        var SSN = document.getElementById("SSN");
-        SSN.addEventListener("keyup", () => {
-            addDashesSSN(SSN);
-        });
-
-        var Phone = document.getElementById("Phone");
-        Phone.addEventListener("keyup", () => {
-            addDashesPhone(Phone);
-        });
-
-        const elem = document.querySelector('input[name="datepicker"]');
-        const datepicker = new Datepicker(elem, {
-            // options here
-        });
-       
-
-    </script>
+  
 }
 
 

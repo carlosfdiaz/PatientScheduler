@@ -37,7 +37,12 @@ namespace PatientScheduler.DataAccess.Repository
 
         public void UpdateInsurance(Patient patient)
         {
-            var objFromDb = _db.Patients.Include(p => p.Address).SingleOrDefault(p => p.Id == patient.Id);
+            var objFromDb = _db.Patients.Include(p => p.Insurance).SingleOrDefault(p => p.Id == patient.Id);
+            objFromDb.Insurance.Name = patient.Insurance.Name;
+            objFromDb.Insurance.GroupNumber = patient.Insurance.GroupNumber;
+            objFromDb.Insurance.Phone = patient.Insurance.Phone;
+
+            _db.SaveChanges();
         }
     }
 }
