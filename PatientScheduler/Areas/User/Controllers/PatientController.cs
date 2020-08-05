@@ -81,14 +81,15 @@ namespace PatientScheduler.Areas.User.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostPatientInsurance()
+        public IActionResult CreatePatientInsurance()
         {
             if (!ModelState.IsValid)
             {
                 RedirectToAction(nameof(PatientInsurance));
             }
 
-            _unitOfWork.Patient.UpdateInsurance(PatientVM);
+            _unitOfWork.Patient.CreatePatientInsurance(PatientVM);
+           
 
             return RedirectToAction(nameof(PatientPage), PatientVM);
         }
@@ -96,6 +97,33 @@ namespace PatientScheduler.Areas.User.Controllers
         public IActionResult EditPatientInsurance(int id)
         {
             return View(_unitOfWork.Patient.GetFirstOrDefault(p => p.Id == id, Utility.InsuranceProp));
+        }
+
+        [HttpPost]
+        public IActionResult PostEditPatientInsurance()
+        {
+            PatientVM.Insurance.Id = (int)PatientVM.InsuranceId;
+            _unitOfWork.Insurance.Update(PatientVM.Insurance);
+
+            return RedirectToAction(nameof(PatientPage), PatientVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PostDeletePatient(int id)
+        {
+            var patientObj = _unitOfWork.Patient.GetFirstOrDefault(p => p.Id == id, Utility.AddressProp + "," + Utility.InsuranceProp);
+            
+            if(patientObj.Insurance != null)
+            {
+                _unitOfWork.Insurance.Remove(patientObj.Insurance);
+            }
+
+            _unitOfWork.Address.Remove(patientObj.Address);
+            _unitOfWork.Patient.Remove(patientObj);
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(PatientList));
         }
     }
 }

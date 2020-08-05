@@ -14,9 +14,10 @@
         </div>
     </div>
     <div class="card-body mr-3 ml-3">
-        <form method="post" asp-action="PostPatientInsurance">
+        <form method="post" asp-action="PostEditPatientInsurance">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" value="@Model.Id" name="Id" />
+            <input type="hidden" value="@Model.InsuranceId" name="InsuranceId" />
             <div class="form-group row">
                 <div class="col-12">
                     <div class="form-group">

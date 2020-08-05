@@ -35,13 +35,11 @@ namespace PatientScheduler.DataAccess.Repository
             _db.SaveChanges();
         }
 
-        public void UpdateInsurance(Patient patient)
+        public void CreatePatientInsurance(Patient patient)
         {
             var objFromDb = _db.Patients.Include(p => p.Insurance).SingleOrDefault(p => p.Id == patient.Id);
-            objFromDb.Insurance.Name = patient.Insurance.Name;
-            objFromDb.Insurance.GroupNumber = patient.Insurance.GroupNumber;
-            objFromDb.Insurance.Phone = patient.Insurance.Phone;
-
+            objFromDb.Insurance = patient.Insurance;
+            
             _db.SaveChanges();
         }
     }

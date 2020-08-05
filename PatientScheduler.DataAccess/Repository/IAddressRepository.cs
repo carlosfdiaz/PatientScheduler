@@ -5,10 +5,7 @@ using System.Text;
 
 namespace PatientScheduler.DataAccess.Repository
 {
-    public interface IPatientRepository : IRepository<Patient>
+    public interface IAddressRepository : IRepository<Address>
     {
-        void Update(Patient patient);
-
-        void CreatePatientInsurance(Patient patient);
     }
 }
