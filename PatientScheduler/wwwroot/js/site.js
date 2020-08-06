@@ -48,6 +48,49 @@ if (SSN !== null) {
 }
 
 
+var deleteInsuranceForm = document.getElementById("DeleteInsuranceForm");
+var deleteInsuranceBtn = document.getElementById("DeleteInsuranceBtn");
+if (deleteInsuranceBtn !== null && deleteInsuranceForm !== null) {
+    deleteInsuranceBtn.addEventListener("click", () => {
+        event.preventDefault();
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this patient's insurance info.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    deleteInsuranceForm.submit();
+                } else {
+                    swal.close();
+                }
+            });
+    });
+}
+
+var deletePatientForm = document.getElementById("DeletePatientForm");
+var deletePatientBtn = document.getElementById("DeletePatientBtn");
+if (deletePatientBtn !== null && deletePatientForm !== null) {
+    deletePatientBtn.addEventListener("click", () => {
+        event.preventDefault();
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this patient's info.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    deletePatientForm.submit();
+                } else {
+                    swal.close();
+                }
+            });
+    });
+}
 
 
 

@@ -79,7 +79,10 @@
                 </div>
                 <div class="row">
                     <div class="col-12 text-right">
-                        <a class="btn btn-danger">Delete Patient</a>
+                        <form method="post" id="DeletePatientForm" asp-action="PostDeletePatient" asp-route-id="@Model.Id">
+                            <button type="button" id="DeletePatientBtn" class="btn btn-danger"><i class="far fa-trash-alt"  style="font-size: 1rem;"></i> Delete Patient</button>
+                        </form>
+                        
                     </div>
                 </div>
             </div>
@@ -97,26 +100,5 @@
 @section Scripts{
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script>
-        var deleteInsuranceForm = document.getElementById("DeleteInsuranceForm");
-        var deleteInsuranceBtn = document.getElementById("DeleteInsuranceBtn");
-        deleteInsuranceBtn.addEventListener("click", () => {
-            event.preventDefault();
-            swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this patient's insurance info.",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        deleteInsuranceForm.submit();
-                    } else {
-                        swal.close();
-                    }
-                });
-        });
-    </script>
-
+   
 }
