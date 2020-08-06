@@ -109,6 +109,16 @@ namespace PatientScheduler.Areas.User.Controllers
         }
 
         [HttpPost]
+        public IActionResult PostDeletePatientInsurance(int id)
+        {
+            var objFromDb = _unitOfWork.Patient.GetFirstOrDefault(p => p.Id == id, Utility.InsuranceProp);
+            _unitOfWork.Insurance.Remove(objFromDb.Insurance);
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(PatientPage), PatientVM);
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult PostDeletePatient(int id)
         {
