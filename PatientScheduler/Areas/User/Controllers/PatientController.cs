@@ -33,8 +33,11 @@ namespace PatientScheduler.Areas.User.Controllers
         }
 
         public IActionResult PatientPage(int id)
-        {           
-           return View(_unitOfWork.Patient.GetFirstOrDefault(p => p.Id == id, Utility.InsuranceProp + "," + Utility.AddressProp));            
+        {
+            PatientAppointmentVM PatientAppointmentVM = new PatientAppointmentVM();
+            PatientAppointmentVM.Patient = _unitOfWork.Patient.GetFirstOrDefault(p => p.Id == id, Utility.InsuranceProp + "," + Utility.AddressProp);
+            PatientAppointmentVM.Appointment = null;
+            return View(PatientAppointmentVM);            
         }
 
         public IActionResult Create()
