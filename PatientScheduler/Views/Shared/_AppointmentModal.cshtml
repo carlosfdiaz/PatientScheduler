@@ -9,27 +9,33 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form method="post" id="AppointmentForm">
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="Appointment.DoctorId" type="hidden" value="" id="DoctorId" />
+                    <input asp-for="Appointment.PatientId" type="hidden" value="@Model.Patient.Id" id="PatientId"  />
                     <div class="form-group">
                         <label>Patient</label>
-                        <input type="text" disabled class="form-control" id="PatientName" value="@Model.Patient.FirstName @Model.Patient.LastName" />
+                        <input type="text" disabled class="form-control" value="@Model.Patient.FirstName @Model.Patient.LastName" id="PatientName" />
                     </div>
                     <div class="form-group">
                         <label for="appt">Appointment Start Time</label>
-                        <input type="time" class="form-control" id="AppointmentStart" required>
+                        <input asp-for="Appointment.StartTime" type="time" class="form-control" id="AppointmentStart" value=""  >
+                        <span asp-validation-for="Appointment.StartTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label for="appten">Appointment End Time</label>
-                        <input type="time" class="form-control" id="AppointmentEnd" required>
+                        <input asp-for="Appointment.EndTime" type="time" class="form-control" id="AppointmentEnd" value="" >
+                        <span asp-validation-for="Appointment.EndTime" class="text-danger"></span>
                     </div>
 
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="SaveChanges">Save changes</button>
-            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="SaveChanges">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

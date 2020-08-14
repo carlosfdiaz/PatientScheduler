@@ -9,6 +9,8 @@
     <Compile Remove="Data\Migrations\20200803182417_test.Designer.cs" />
     <Compile Remove="Data\Migrations\20200803183209_test.cs" />
     <Compile Remove="Data\Migrations\20200803183209_test.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200814184419_AddedDateColumntoAppointmentsTable.cs" />
+    <Compile Remove="Data\Migrations\20200814184419_AddedDateColumntoAppointmentsTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

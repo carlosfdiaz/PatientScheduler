@@ -15,6 +15,7 @@ namespace PatientScheduler.DataAccess.Repository
             Patient = new PatientRepository(_db);
             Address = new AddressRepository(_db);
             Insurance = new InsuranceRepository(_db);
+            Appointment = new AppointmentRepository(_db);
         }
         
         public IPatientRepository Patient { get; private set; }
@@ -22,6 +23,8 @@ namespace PatientScheduler.DataAccess.Repository
         public IAddressRepository Address { get; private set; }
 
         public IInsuranceRepository Insurance { get; private set; }
+
+        public IAppointmentRepository Appointment { get; private set; }
 
         public void Dispose()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
@@ -17,5 +18,14 @@ namespace PatientScheduler.Models
         public int PatientId { get; set; }
 
         public virtual Patient Patient { get; set; }
+   
+
+        [Required]
+        [Display(Name = "Start Time")]
+        public DateTime StartTime { get; set; }
+        
+        [Required]
+        [Display(Name = "End Time")]
+        public DateTime EndTime { get; set; }
     }
 }

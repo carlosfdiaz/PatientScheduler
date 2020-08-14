@@ -3,7 +3,6 @@
 
 // Write your JavaScript code.
 
-
 function addDashesPhone(input) {
 
     var r = /(\D+)/g,
@@ -94,4 +93,25 @@ if (deletePatientBtn !== null && deletePatientForm !== null) {
 
 
 
-
+//Calendar Post Appointment
+function PostAppointment() {
+    let form = document.getElementById("AppointmentForm")
+    console.log(form);
+    let formData = new FormData(form);
+    for (var key of formData.keys()) {
+        console.log(key);
+    }
+    
+    fetch('/User/Schedule/PostAppointment/', {
+        method: 'post',
+        body: new URLSearchParams(formData)
+    })
+        .then((response) => {
+            return response.text();
+        })
+        .then((result) => {
+            console.log(result);
+        })
+        
+   
+}

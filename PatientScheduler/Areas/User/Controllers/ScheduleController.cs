@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PatientScheduler.DataAccess.Repository;
 using PatientScheduler.Models;
 
@@ -19,6 +20,8 @@ namespace PatientScheduler.Areas.User.Controllers
         public ScheduleController(IUnitOfWork unitOfWork)
         {
             PatientAppointmentVM = new PatientAppointmentVM();
+            Appointment Appointment = new Appointment();
+            PatientAppointmentVM.Appointment = Appointment;
             _unitOfWork = unitOfWork;
         }
 
@@ -32,6 +35,20 @@ namespace PatientScheduler.Areas.User.Controllers
 
             PatientAppointmentVM.Patient = _unitOfWork.Patient.Get(id);
             return View(PatientAppointmentVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PostAppointment()
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Appointment.Add(PatientAppointmentVM.Appointment);
+                _unitOfWork.Save();
+                return new JsonResult(PatientAppointmentVM.Appointment);
+                
+            }
+            return new JsonResult("invalidState");
         }
     }
 }
