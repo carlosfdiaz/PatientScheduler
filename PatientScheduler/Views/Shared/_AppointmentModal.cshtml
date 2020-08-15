@@ -14,19 +14,24 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input asp-for="Appointment.DoctorId" type="hidden" value="" id="DoctorId" />
                     <input asp-for="Appointment.PatientId" type="hidden" value="@Model.Patient.Id" id="PatientId"  />
+                    
                     <div class="form-group">
                         <label>Patient</label>
                         <input type="text" disabled class="form-control" value="@Model.Patient.FirstName @Model.Patient.LastName" id="PatientName" />
                     </div>
                     <div class="form-group">
-                        <label for="appt">Appointment Start Time</label>
-                        <input asp-for="Appointment.StartTime" type="time" class="form-control" id="AppointmentStart" value=""  >
-                        <span asp-validation-for="Appointment.StartTime" class="text-danger"></span>
+                        <label asp-for="StartTime"></label>
+                        <input asp-for="StartTime" type="time" class="form-control" value="" id="AppointmentStart" />
+                        <span asp-validation-for="StartTime" class="text-danger"></span>
+                        <input asp-for="Appointment.StartTime" type="hidden" class="form-control"  value="" id="StartForModel" />
+               
                     </div>
                     <div class="form-group">
-                        <label for="appten">Appointment End Time</label>
-                        <input asp-for="Appointment.EndTime" type="time" class="form-control" id="AppointmentEnd" value="" >
-                        <span asp-validation-for="Appointment.EndTime" class="text-danger"></span>
+                        <label asp-for="EndTime"></label>
+                        <input asp-for="EndTime" type="time" class="form-control" value="" id="AppointmentEnd" />
+                        <span asp-validation-for="EndTime" class="text-danger"></span>
+                        <input asp-for="Appointment.EndTime" type="hidden" class="form-control" value="" id="EndForModel" />
+                
                     </div>
 
 

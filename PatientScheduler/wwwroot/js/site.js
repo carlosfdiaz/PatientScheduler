@@ -98,9 +98,13 @@ function PostAppointment() {
     let form = document.getElementById("AppointmentForm")
     console.log(form);
     let formData = new FormData(form);
+    console.log(formData.get("Appointment.StartTime"));
     for (var key of formData.keys()) {
         console.log(key);
     }
+    console.log(formData.get("Appointment.StartTime") + "START IN FETCH");
+    console.log(formData.get("Appointment.EndTime") + "END IN FETCH");
+   
     
     fetch('/User/Schedule/PostAppointment/', {
         method: 'post',
@@ -111,7 +115,10 @@ function PostAppointment() {
         })
         .then((result) => {
             console.log(result);
-        })
-        
+        })        
    
+}
+
+function GetAppointments() {
+
 }

@@ -25,11 +25,11 @@
                 </div>
             </div>
         </div>
-        
+        <partial name="_AppointmentModal" />
     }
 }
 
-<partial name="_AppointmentModal" />
+
 <div id='calendar'></div>
 
 @section Scripts{
@@ -45,91 +45,77 @@
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },                
-                navLinks: true, // can click day/week names to navigate views   
+                },
+                navLinks: true, // can click day/week names to navigate views
                 eventStartEditable: false,
                 selectable: true,
                 selectMirror: true,
                 select: function (arg) {
 
-                    var btn = document.getElementById("SaveChanges");
+                    let saveBtn = document.getElementById("SaveChanges");
 
-                    var dateStart = moment(arg.start);
-                    var dateEnd = moment(arg.end);
-                    var verifySelectdateEnd = moment(arg.end).subtract(1, 'hour');
+                    let appointmentStartField = document.getElementById("AppointmentStart");
+                    let appointmentEndField = document.getElementById("AppointmentEnd");
+                    let form = document.getElementById("AppointmentForm");
 
+                    let momentStart = moment(arg.start);
+                    let momentEnd = moment(arg.end);
+                    let verifySelectdateEnd = moment(arg.end).subtract(1, 'hour');
 
-                    if (verifySelectdateEnd.isAfter(dateStart, 'day')) {
+                    let dateComponentStart = momentStart.format('YYYY-MM-DD');
+                    let timeComponentStart = momentStart.format('HH:mm');
+                    let timeComponentEnd = momentEnd.format('HH:mm');
+
+                    appointmentStartField.value = timeComponentStart;
+                    appointmentEndField.value = timeComponentEnd;
+
+                    if (verifySelectdateEnd.isAfter(momentStart, 'day')) {
                         calendar.unselect();
                     } else {
 
-                        let dateComponentStart = dateStart.format('YYYY-MM-DD');
-                        let timeComponentStart = dateStart.format('HH:mm');
-                       
-                        let timeComponentEnd = dateEnd.format('HH:mm');
-
-                        var timeStartField = document.getElementById("AppointmentStart");
-                        var timeEndField = document.getElementById("AppointmentEnd");
-
                         if (timeComponentStart == "00:00") {
-                            timeStartField.value = "";
-                            timeEndField.value = "";
+                            appointmentStartField.value = "";
+                            appointmentEndField.value = "";
                         } else {
-                            timeStartField.value = timeComponentStart;
-                            timeEndField.value = timeComponentEnd;
+                            appointmentStartField.value = timeComponentStart;
+                            appointmentEndField.value = timeComponentEnd;
                         }
-
-                        $('#Modal').modal()
-
-                       
-                        btn.onclick = () => {
-                            let form = document.getElementById("AppointmentForm");
-                            form.addEventListener('submit', () => {
-                                event.preventDefault();
-
-                                if ($("#AppointmentForm").valid()) {
-                                    timeComponentStart = timeStartField.value;
-                                    timeComponentEnd = timeEndField.value;                                    
-                                    dateStart = moment(dateComponentStart + ' ' + timeComponentStart)._d;
-                                    dateEnd = moment(dateComponentStart + ' ' + timeComponentEnd)._d;
-                                    document.getElementById("DoctorId").value = 1;
-                                   
-
-                                    PostAppointment();
-
-                                    calendar.addEvent({
-                                        title: document.getElementById("PatientName").value,
-                                        start: moment(dateComponentStart + ' ' + timeComponentStart)._d,
-                                        end: moment(dateComponentStart + ' ' + timeComponentEnd)._d,
-
-                                    });
-                                    console.log(dateStart);
-                                    console.log(dateEnd);
-
-                                    $('#Modal').modal('toggle');
-                                }
-                               
-                            });
-                      @*      if ($("#AppointmentForm").valid()) {
-                                timeComponentStart = timeStartField.value;
-                                timeComponentEnd = timeEndField.value;
-                                console.log(timeComponentEnd);
-                                dateStart = moment(dateComponentStart + ' ' + timeComponentStart)._d;
-                                dateEnd = moment(dateComponentStart + ' ' + timeComponentEnd)._d;
-
-                                calendar.addEvent({
-                                    title: document.getElementById("PatientName").value,
-                                    start: moment(dateComponentStart + ' ' + timeComponentStart)._d,
-                                    end: moment(dateComponentStart + ' ' + timeComponentEnd)._d,
-
-                                });
-                                console.log(dateStart);
-                                console.log(dateEnd);
-
-                                $('#Modal').modal('toggle');
-                            }*@
-                        }
+                        $('#Modal').modal();
                     }
+
+
+
+                    saveBtn.onclick = function () {
+
+                        event.preventDefault();
+
+                        if ($("#AppointmentForm").valid()) {
+                            timeComponentStart = appointmentStartField.value;;
+                            timeComponentEnd = appointmentEndField.value;
+                            let startForModel = document.getElementById("StartForModel");
+                            startForModel.value = moment(dateComponentStart + ' ' + timeComponentStart)._i;
+
+
+                            let endForModel = document.getElementById("EndForModel");
+                            endForModel.value = moment(dateComponentStart + ' ' + timeComponentEnd)._i;
+
+                            document.getElementById("DoctorId").value = 1;
+
+                            PostAppointment();
+
+                            calendar.addEvent({
+                                title: document.getElementById("PatientName").value,
+                                start: moment(dateComponentStart + ' ' + timeComponentStart)._i,
+                                end: moment(dateComponentStart + ' ' + timeComponentEnd)._i,
+
+                            });
+
+                            $('#Modal').modal('toggle');
+                        }
+
+                    }
+
+
 
 
                 },
@@ -141,7 +127,19 @@
                 displayEventEnd: true,
                 editable: true,
                 dayMaxEvents: true, // allow "more" link when too many events
-                events: [
+                events: {
+
+                    url: '/User/Schedule/GetAppointments',
+                    method: 'GET',
+                    failure: function () {
+                        console.log('error while fetching');
+                    },
+                    success: function (data) {
+                        console.log(data);
+                    }
+                }
+
+@*                    [
                     {
                         title: 'All Day Event',
                         start: '2020-08-01'
@@ -196,8 +194,8 @@
                         url: 'http://google.com/',
                         start: '2020-08-28'
                     }
-                ]
-                
+                ]*@
+
             });
 
             calendar.render();

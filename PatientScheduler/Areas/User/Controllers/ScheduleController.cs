@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PatientScheduler.DataAccess.Repository;
@@ -37,16 +39,32 @@ namespace PatientScheduler.Areas.User.Controllers
             return View(PatientAppointmentVM);
         }
 
+        public IActionResult GetAppointments()
+        {
+            var appointments = _unitOfWork.Appointment.GetAll();
+            List<CalendarEvent> calendarEvents = new List<CalendarEvent>();
+            foreach(var appointment in appointments)
+            {
+                var calendarEvent = new CalendarEvent();
+                calendarEvent.Title = appointment.Id.ToString();
+                calendarEvent.Start = appointment.StartTime;
+                calendarEvent.End = appointment.EndTime;
+                calendarEvents.Add(calendarEvent);
+            }
+            return new JsonResult(calendarEvents);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult PostAppointment()
+        public IActionResult PostAppointment(IFormFileCollection form)
         {
+            var show =PatientAppointmentVM;
             if (ModelState.IsValid)
             {
                 _unitOfWork.Appointment.Add(PatientAppointmentVM.Appointment);
                 _unitOfWork.Save();
                 return new JsonResult(PatientAppointmentVM.Appointment);
-                
+
             }
             return new JsonResult("invalidState");
         }
