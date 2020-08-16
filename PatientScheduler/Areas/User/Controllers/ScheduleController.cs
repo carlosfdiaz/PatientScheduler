@@ -41,14 +41,15 @@ namespace PatientScheduler.Areas.User.Controllers
 
         public IActionResult GetAppointments()
         {
-            var appointments = _unitOfWork.Appointment.GetAll();
+            var appointments = _unitOfWork.Appointment.GetAll(null, null, Utility.PatientProp);
             List<CalendarEvent> calendarEvents = new List<CalendarEvent>();
             foreach(var appointment in appointments)
             {
                 var calendarEvent = new CalendarEvent();
-                calendarEvent.Title = appointment.Id.ToString();
+                calendarEvent.Title = appointment.Patient.FirstName + " " + appointment.Patient.LastName;
                 calendarEvent.Start = appointment.StartTime;
                 calendarEvent.End = appointment.EndTime;
+                calendarEvent.Id = appointment.Id;
                 calendarEvents.Add(calendarEvent);
             }
             return new JsonResult(calendarEvents);

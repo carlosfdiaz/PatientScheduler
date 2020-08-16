@@ -8,5 +8,7 @@ namespace PatientScheduler.Models
     {
         public const string InsuranceProp = "Insurance";
         public const string AddressProp = "Address";
+        public const string PatientProp = "Patient";
+        public const string DoctorProp = "Doctor";
     }
 }

@@ -34,10 +34,10 @@ namespace PatientScheduler.Areas.User.Controllers
 
         public IActionResult PatientPage(int id)
         {
-            PatientAppointmentVM PatientAppointmentVM = new PatientAppointmentVM();
-            PatientAppointmentVM.Patient = _unitOfWork.Patient.GetFirstOrDefault(p => p.Id == id, Utility.InsuranceProp + "," + Utility.AddressProp);
-            PatientAppointmentVM.Appointment = null;
-            return View(PatientAppointmentVM);            
+            PatientAppointmentListVM PatientAppointmentListVM = new PatientAppointmentListVM();
+            PatientAppointmentListVM.Patient = _unitOfWork.Patient.GetFirstOrDefault(p => p.Id == id, Utility.InsuranceProp + "," + Utility.AddressProp);
+            PatientAppointmentListVM.Appointments = _unitOfWork.Appointment.GetAll(a => a.PatientId == id);
+            return View(PatientAppointmentListVM);            
         }
 
         public IActionResult Create()
