@@ -14,5 +14,16 @@ namespace PatientScheduler.DataAccess.Repository
         {
             _db = db;
         }
+
+        public void UpdateStatus(int id, int status)
+        {
+            var objFromDb = _db.Appointments.Find(id);
+            if (objFromDb != null)
+            {
+                objFromDb.Status = status;
+                _db.SaveChanges();
+            }
+           
+        }
     }
 }

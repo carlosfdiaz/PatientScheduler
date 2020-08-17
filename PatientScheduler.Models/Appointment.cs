@@ -27,5 +27,7 @@ namespace PatientScheduler.Models
         [Required]
         [Display(Name = "End Time")]
         public DateTime EndTime { get; set; }
+
+        public int Status { get; set; }
     }
 }

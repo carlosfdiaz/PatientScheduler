@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PatientScheduler.DataAccess.Repository;
 using PatientScheduler.Models;
+using PatientScheduler.Models.Enums;
 
 namespace PatientScheduler.Areas.User.Controllers
 {
@@ -58,16 +54,40 @@ namespace PatientScheduler.Areas.User.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult PostAppointment(IFormFileCollection form)
-        {
-            var show =PatientAppointmentVM;
+        {           
             if (ModelState.IsValid)
             {
+                PatientAppointmentVM.Appointment.Status = (int)AppointmentStatus.Upcoming;
                 _unitOfWork.Appointment.Add(PatientAppointmentVM.Appointment);
                 _unitOfWork.Save();
                 return new JsonResult(PatientAppointmentVM.Appointment);
 
             }
             return new JsonResult("invalidState");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PostDeleteAppointment(int apptId, int patientId)
+        {
+            
+            var objFromDb = _unitOfWork.Appointment.Get(apptId);
+            if(objFromDb != null)
+            {
+                _unitOfWork.Appointment.Remove(objFromDb);
+                _unitOfWork.Save();
+            }
+
+            return RedirectToAction("PatientPage", "Patient", new { id = patientId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PostChangeAppointmentStatus(int apptId, int patientId)
+        {
+            _unitOfWork.Appointment.UpdateStatus(apptId, (int)AppointmentStatus.Completed);
+
+            return RedirectToAction("PatientPage", "Patient", new { id = patientId });
         }
     }
 }

@@ -46,7 +46,7 @@ if (SSN !== null) {
     });
 }
 
-
+//Alert for Deleting Insurance Information in PatientPage
 var deleteInsuranceForm = document.getElementById("DeleteInsuranceForm");
 var deleteInsuranceBtn = document.getElementById("DeleteInsuranceBtn");
 if (deleteInsuranceBtn !== null && deleteInsuranceForm !== null) {
@@ -69,6 +69,7 @@ if (deleteInsuranceBtn !== null && deleteInsuranceForm !== null) {
     });
 }
 
+//Alert for Deleting Patient Record in PatientPage
 var deletePatientForm = document.getElementById("DeletePatientForm");
 var deletePatientBtn = document.getElementById("DeletePatientBtn");
 if (deletePatientBtn !== null && deletePatientForm !== null) {
@@ -91,7 +92,52 @@ if (deletePatientBtn !== null && deletePatientForm !== null) {
     });
 }
 
+//Alert for Deleting Appointment in PatientPage
+var deleteAppointmentForm = document.getElementById("DeleteAppointmentForm");
+var deleteAppointmentBtn = document.getElementById("DeleteAppointmentBtn");
+if (deleteAppointmentBtn !== null && deleteAppointmentForm !== null) {
+    deleteAppointmentBtn.addEventListener("click", () => {
+        event.preventDefault();
+        swal({
+            title: "Are you sure you want to delete this appointment?",
+            text: "Once deleted, you will not be able to recover this apppointment.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    deleteAppointmentForm.submit();
+                } else {
+                    swal.close();
+                }
+            });
+    });
+}
 
+//Alert for Marking Appointment as Completed in PatientPage
+var markAppointmentCompleteForm = document.getElementById("MarkAppointmentCompleteForm");
+var markAppointmentCompleteBtn = document.getElementById("MarkAppointmentCompleteBtn");
+if (markAppointmentCompleteBtn !== null && markAppointmentCompleteForm !== null) {
+    markAppointmentCompleteBtn.addEventListener("click", () => {
+        event.preventDefault();
+        swal({
+            title: "Do you want to mark this appointment as Complete?",
+            icon: "info",
+            buttons: {
+                cancel: "No, Go Back",             
+                confirm: "Yes, Mark Complete",               
+            },
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    markAppointmentCompleteForm.submit();
+                } else {
+                    swal.close();
+                }
+            });
+    });
+}
 
 //Calendar Post Appointment
 function PostAppointment() {
@@ -119,6 +165,3 @@ function PostAppointment() {
    
 }
 
-function GetAppointments() {
-
-}

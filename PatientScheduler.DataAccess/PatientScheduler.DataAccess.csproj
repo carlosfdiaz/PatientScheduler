@@ -11,6 +11,10 @@
     <Compile Remove="Data\Migrations\20200803183209_test.Designer.cs" />
     <Compile Remove="Data\Migrations\20200814184419_AddedDateColumntoAppointmentsTable.cs" />
     <Compile Remove="Data\Migrations\20200814184419_AddedDateColumntoAppointmentsTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200817170551_AddStatusColumnToAppointmentTable.cs" />
+    <Compile Remove="Data\Migrations\20200817170551_AddStatusColumnToAppointmentTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200817171214_AddStatusColumnToAppointmentTable.cs" />
+    <Compile Remove="Data\Migrations\20200817171214_AddStatusColumnToAppointmentTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
