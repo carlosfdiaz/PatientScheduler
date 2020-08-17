@@ -83,9 +83,9 @@ namespace PatientScheduler.Areas.User.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult PostChangeAppointmentStatus(int apptId, int patientId)
+        public IActionResult PostChangeAppointmentStatus(int apptId, int patientId, AppointmentStatus status)
         {
-            _unitOfWork.Appointment.UpdateStatus(apptId, (int)AppointmentStatus.Completed);
+            _unitOfWork.Appointment.UpdateStatus(apptId, (int)status);
 
             return RedirectToAction("PatientPage", "Patient", new { id = patientId });
         }

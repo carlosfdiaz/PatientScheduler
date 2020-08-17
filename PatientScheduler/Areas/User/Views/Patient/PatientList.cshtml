@@ -83,7 +83,7 @@
             var deleteBtns = document.getElementsByName("DeleteBtn");
             var deleteForms = document.getElementsByName("DeleteForm")
             var i;
-            for (i = 0; deleteBtns.length; i++) {
+            for (i = 0; i < deleteBtns.length; i++) {
                 let cc = i;
                 deleteBtns[i].addEventListener("click", () => {
                     event.preventDefault();
