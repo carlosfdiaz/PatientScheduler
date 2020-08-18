@@ -77,7 +77,7 @@ if (deletePatientBtn !== null && deletePatientForm !== null) {
         event.preventDefault();
         swal({
             title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this patient's info.",
+            text: "Once deleted, you will not be able to recover this patient's information and all appointments for this patient will be deleted.",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -91,55 +91,6 @@ if (deletePatientBtn !== null && deletePatientForm !== null) {
             });
     });
 }
-
-//Alert for Deleting Appointment in PatientPage
-/*var deleteAppointmentForm = document.getElementById("DeleteAppointmentForm");
-var deleteAppointmentBtn = document.getElementById("DeleteAppointmentBtn");
-if (deleteAppointmentBtn !== null && deleteAppointmentForm !== null) {
-    deleteAppointmentBtn.addEventListener("click", () => {
-        event.preventDefault();
-        swal({
-            title: "Are you sure you want to delete this appointment?",
-            text: "Once deleted, you will not be able to recover this apppointment.",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-            .then((willDelete) => {
-                if (willDelete) {
-                    deleteAppointmentForm.submit();
-                } else {
-                    swal.close();
-                }
-            });
-    });
-}*/
-
-//Alert for Marking Appointment as Completed in PatientPage
-/*var markAppointmentCompleteForm = document.getElementById("MarkAppointmentCompleteForm");
-var markAppointmentCompleteBtn = document.getElementById("MarkAppointmentCompleteBtn");
-if (markAppointmentCompleteBtn !== null && markAppointmentCompleteForm !== null) {
-    markAppointmentCompleteBtn.addEventListener("click", () => {
-        event.preventDefault();
-        swal({
-            title: "Do you want to mark this appointment as Complete?",
-            icon: "info",
-            buttons: {
-                cancel: "No, Go Back",             
-                confirm: "Yes, Mark Complete",               
-            },
-        })
-            .then((willDelete) => {
-                if (willDelete) {
-                    markAppointmentCompleteForm.submit();
-                } else {
-                    swal.close();
-                }
-            });
-    });
-}*/
-
-
 
 //Alerts for Delete Appointment buttons in Patient Page
 var deleteAppointmentBtns = document.getElementsByName("DeleteAppointmentBtn");
@@ -235,16 +186,8 @@ if (markAppointmentCancelledBtns !== null && markAppointmentCancelledForms !== n
 //Calendar Post Appointment
 function PostAppointment() {
     let form = document.getElementById("AppointmentForm")
-    console.log(form);
-    let formData = new FormData(form);
-    console.log(formData.get("Appointment.StartTime"));
-    for (var key of formData.keys()) {
-        console.log(key);
-    }
-    console.log(formData.get("Appointment.StartTime") + "START IN FETCH");
-    console.log(formData.get("Appointment.EndTime") + "END IN FETCH");
-   
-    
+    let formData = new FormData(form); 
+ 
     fetch('/User/Schedule/PostAppointment/', {
         method: 'post',
         body: new URLSearchParams(formData)

@@ -36,7 +36,7 @@ namespace PatientScheduler.Areas.User.Controllers
         {
             PatientAppointmentListVM PatientAppointmentListVM = new PatientAppointmentListVM();
             PatientAppointmentListVM.Patient = _unitOfWork.Patient.GetFirstOrDefault(p => p.Id == id, Utility.InsuranceProp + "," + Utility.AddressProp);
-            PatientAppointmentListVM.Appointments = _unitOfWork.Appointment.GetAll(a => a.PatientId == id);
+            PatientAppointmentListVM.Appointments = _unitOfWork.Appointment.GetAll(a => a.PatientId == id, a => a.OrderBy(a => a.StartTime), Utility.DoctorProp);
             return View(PatientAppointmentListVM);            
         }
 
@@ -126,7 +126,15 @@ namespace PatientScheduler.Areas.User.Controllers
         public IActionResult PostDeletePatient(int id)
         {
             var patientObj = _unitOfWork.Patient.GetFirstOrDefault(p => p.Id == id, Utility.AddressProp + "," + Utility.InsuranceProp);
-            
+            var apptsFromDb = _unitOfWork.Appointment.GetAll(a => a.PatientId == id);
+
+            if(apptsFromDb != null)
+            {
+                foreach(var appt in apptsFromDb)
+                {
+                    _unitOfWork.Appointment.Remove(appt);
+                }
+            }
             if(patientObj.Insurance != null)
             {
                 _unitOfWork.Insurance.Remove(patientObj.Insurance);

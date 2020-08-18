@@ -20,14 +20,13 @@
     {
         <div class="container mb-2 ml-0 pl-0">
             <div class="row">
-                <div class="col-4">
+                <div class="col-6">
                     <h5>Schedule Appointment for @Model.Patient.FirstName @Model.Patient.LastName </h5>
                     <label>Select a doctor</label>
-                    <select class="form-control">                   
-                        <option>placeholder</option>
+                    <select id="Option" class="form-control" asp-items="@Model.DrOptions">                                
                     </select>
                 </div>
-                <div class="col-8 text-right pr-0">                    
+                <div class="col-6 text-right pr-0">                    
                     <a asp-action="PatientPage" asp-controller="Patient" asp-route-id="@Model.Patient.Id" class="btn btn-grey mr-0">Go Back to Patient</a>
                 </div>
             </div>
@@ -44,7 +43,7 @@
 
     <script>
 
-        document.addEventListener('DOMContentLoaded', function () {
+      @*  document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -121,15 +120,9 @@
                         }
 
                     }
-
-
-
-
                 },
                 eventClick: function (arg) {
-                    if (confirm('Are you sure you want to delete this event?')) {
-                        arg.event.remove()
-                    }
+                    $("#EventModal").modal('toggle');
                 },
                 displayEventEnd: true,
                 editable: true,
@@ -147,9 +140,118 @@
                 }              
 
             });
-
             calendar.render();
-        });
+        });*@
+
+        function CreateCalendar() {            
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                navLinks: true, // can click day/week names to navigate views
+                eventStartEditable: false,
+                selectable: true,
+                selectMirror: true,
+                select: function (arg) {
+
+                    let saveBtn = document.getElementById("SaveChanges");
+
+                    let appointmentStartField = document.getElementById("AppointmentStart");
+                    let appointmentEndField = document.getElementById("AppointmentEnd");
+                    let form = document.getElementById("AppointmentForm");
+
+                    let momentStart = moment(arg.start);
+                    let momentEnd = moment(arg.end);
+                    let verifySelectdateEnd = moment(arg.end).subtract(1, 'hour');
+
+                    let dateComponentStart = momentStart.format('YYYY-MM-DD');
+                    let timeComponentStart = momentStart.format('HH:mm');
+                    let timeComponentEnd = momentEnd.format('HH:mm');
+
+                    appointmentStartField.value = timeComponentStart;
+                    appointmentEndField.value = timeComponentEnd;
+
+                    if (verifySelectdateEnd.isAfter(momentStart, 'day')) {
+                        calendar.unselect();
+                    } else {
+
+                        if (timeComponentStart == "00:00") {
+                            appointmentStartField.value = "";
+                            appointmentEndField.value = "";
+                        } else {
+                            appointmentStartField.value = timeComponentStart;
+                            appointmentEndField.value = timeComponentEnd;
+                        }
+                        $('#Modal').modal();
+                    }
+
+
+
+                    saveBtn.onclick = function () {
+
+                        event.preventDefault();
+
+                        if ($("#AppointmentForm").valid()) {
+                            timeComponentStart = appointmentStartField.value;;
+                            timeComponentEnd = appointmentEndField.value;
+                            let startForModel = document.getElementById("StartForModel");
+                            startForModel.value = moment(dateComponentStart + ' ' + timeComponentStart)._i;
+
+
+                            let endForModel = document.getElementById("EndForModel");
+                            endForModel.value = moment(dateComponentStart + ' ' + timeComponentEnd)._i;
+
+                            document.getElementById("DoctorId").value = document.getElementById("Option").value;
+
+                            PostAppointment();
+
+                            calendar.addEvent({
+                                title: document.getElementById("PatientName").value,
+                                start: moment(dateComponentStart + ' ' + timeComponentStart)._i,
+                                end: moment(dateComponentStart + ' ' + timeComponentEnd)._i,
+
+                            });
+
+                            $('#Modal').modal('toggle');
+                        }
+
+                    }
+                },
+                eventClick: function (arg) {
+                    $("#EventModal").modal('toggle');
+                },
+                displayEventEnd: true,
+                editable: true,
+                dayMaxEvents: true, // allow "more" link when too many events
+                events: {            
+                    url: '/User/Schedule/GetAppointments',
+                    method: 'GET',
+                    extraParams: {
+                        doctorId: document.getElementById("Option").value
+                    },
+                    failure: function () {
+                        console.log('error while fetching');
+                    },
+                    success: function (data) {
+                        console.log(data);
+                    }
+                }
+
+            });
+            calendar.render();
+        }
+        document.addEventListener('DOMContentLoaded', function () {            
+            CreateCalendar();
+            var option = document.getElementById("Option");
+            console.log(option);
+            option.onchange = () => {
+               CreateCalendar();
+            };
+        });    
 
     </script>
 

@@ -15,7 +15,6 @@
                         <a asp-action="PatientList" class="btn btn-grey">Go to Patient List</a>
                     </div>
                 </div>
-
             </div>
             <div class="card-body">
                 <div class="row p-5">
@@ -95,7 +94,6 @@
                     <div class="col-6 text-right">
                         <a asp-action="SchedulePatientAppointment" asp-controller="Schedule" asp-route-id="@Model.Patient.Id" class="btn btn-grey">Add Appointment</a>
                     </div>
-
                 </div>
             </div>
             <div class="card-body">
@@ -133,13 +131,15 @@
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-sm-12 ">
+                                                                            <p class="mb-1">Doctor</p>
                                                                             <p class="mb-1">Date</p>
                                                                             <p class="mb-1">Start Time</p>
                                                                             <p class="mb-1">End Time</p>
                                                                             <p class="mb-1">Status</p>
                                                                         </div>
                                                                         <div class="col-lg-6 col-sm-12 pl-lg-2 pr-lg-0">
-                                                                            <p class="mb-1">@appointment.StartTime.DayOfWeek @appointment.StartTime.ToString("MMMM dd, yyyy")</p>
+                                                                            <p class="mb-1">@appointment.Doctor.FirstName @appointment.Doctor.LastName</p>
+                                                                            <p class="mb-1">@appointment.StartTime.DayOfWeek @appointment.StartTime.ToString("MMM dd, yyyy")</p>
                                                                             <p class="mb-1">@appointment.StartTime.ToString("hh:mm tt")</p>
                                                                             <p class="mb-1">@appointment.EndTime.ToString("hh:mm tt")</p>
                                                                             <p class="mb-1">@Enum.Parse(typeof(PatientScheduler.Models.Enums.AppointmentStatus), appointment.Status.ToString())</p>
@@ -150,7 +150,6 @@
                                                                             </form>
                                                                         </div>
                                                                         <div class="col-lg-6 col-sm-12 pl-0">
-                                                                            @*<a class="btn btn-md btn-success w-100" style="font-size: .8rem;">Complete</a>*@
                                                                             <form method="post" name="MarkAppointmentCompleteForm" asp-controller="Schedule" asp-action="PostChangeAppointmentStatus" asp-route-apptId="@appointment.Id" asp-route-patientId="@Model.Patient.Id" asp-route-status="@PatientScheduler.Models.Enums.AppointmentStatus.Completed">
                                                                                 <button name="MarkAppointmentCompleteBtn" type="button" class="btn btn-md btn-success w-100" style="font-size: .8rem;">Complete</button>
                                                                             </form>
@@ -188,13 +187,15 @@
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-sm-12 ">
+                                                                            <p class="mb-1">Doctor</p>
                                                                             <p class="mb-1">Date</p>
                                                                             <p class="mb-1">Start Time</p>
                                                                             <p class="mb-1">End Time</p>
                                                                             <p class="mb-1">Status</p>
                                                                         </div>
                                                                         <div class="col-lg-6 col-sm-12 pl-lg-2 pr-lg-0">
-                                                                            <p class="mb-1">@appointment.StartTime.DayOfWeek @appointment.StartTime.ToString("MMMM dd, yyyy")</p>
+                                                                            <p class="mb-1">@appointment.Doctor.FirstName @appointment.Doctor.LastName</p>
+                                                                            <p class="mb-1">@appointment.StartTime.DayOfWeek @appointment.StartTime.ToString("MMM dd, yyyy")</p>
                                                                             <p class="mb-1">@appointment.StartTime.ToString("hh:mm tt")</p>
                                                                             <p class="mb-1">@appointment.EndTime.ToString("hh:mm tt")</p>
                                                                             <p class="mb-1">@Enum.Parse(typeof(PatientScheduler.Models.Enums.AppointmentStatus), appointment.Status.ToString())</p>
@@ -230,13 +231,15 @@
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-sm-12 ">
+                                                                            <p class="mb-1">Doctor</p>
                                                                             <p class="mb-1">Date</p>
                                                                             <p class="mb-1">Start Time</p>
                                                                             <p class="mb-1">End Time</p>
                                                                             <p class="mb-1">Status</p>
                                                                         </div>
                                                                         <div class="col-lg-6 col-sm-12 pl-lg-2 pr-lg-0">
-                                                                            <p class="mb-1">@appointment.StartTime.DayOfWeek @appointment.StartTime.ToString("MMMM dd, yyyy")</p>
+                                                                            <p class="mb-1">@appointment.Doctor.FirstName @appointment.Doctor.LastName</p>
+                                                                            <p class="mb-1">@appointment.StartTime.DayOfWeek @appointment.StartTime.ToString("MMM dd, yyyy")</p>
                                                                             <p class="mb-1">@appointment.StartTime.ToString("hh:mm tt")</p>
                                                                             <p class="mb-1">@appointment.EndTime.ToString("hh:mm tt")</p>
                                                                             <p class="mb-1">@Enum.Parse(typeof(PatientScheduler.Models.Enums.AppointmentStatus), appointment.Status.ToString())</p>
@@ -262,18 +265,10 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
                     }
                 }
-
-
             </div>
         </div>
-
-
     }
     else
     {

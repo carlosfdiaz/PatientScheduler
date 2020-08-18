@@ -1,10 +1,10 @@
 ﻿@model PatientAppointmentVM
 
-<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="AppointmentModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Event</h5>
+                <h5 class="modal-title">Add Appointment</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,8 +13,8 @@
                 <div class="modal-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input asp-for="Appointment.DoctorId" type="hidden" value="" id="DoctorId" />
-                    <input asp-for="Appointment.PatientId" type="hidden" value="@Model.Patient.Id" id="PatientId"  />
-                    
+                    <input asp-for="Appointment.PatientId" type="hidden" value="@Model.Patient.Id" id="PatientId" />
+
                     <div class="form-group">
                         <label>Patient</label>
                         <input type="text" disabled class="form-control" value="@Model.Patient.FirstName @Model.Patient.LastName" id="PatientName" />
@@ -23,15 +23,15 @@
                         <label asp-for="StartTime"></label>
                         <input asp-for="StartTime" type="time" class="form-control" value="" id="AppointmentStart" />
                         <span asp-validation-for="StartTime" class="text-danger"></span>
-                        <input asp-for="Appointment.StartTime" type="hidden" class="form-control"  value="" id="StartForModel" />
-               
+                        <input asp-for="Appointment.StartTime" type="hidden" class="form-control" value="" id="StartForModel" />
+
                     </div>
                     <div class="form-group">
                         <label asp-for="EndTime"></label>
                         <input asp-for="EndTime" type="time" class="form-control" value="" id="AppointmentEnd" />
                         <span asp-validation-for="EndTime" class="text-danger"></span>
                         <input asp-for="Appointment.EndTime" type="hidden" class="form-control" value="" id="EndForModel" />
-                
+
                     </div>
 
 
@@ -44,3 +44,24 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="EventModal" tabindex="-1" role="dialog" aria-labelledby="EventModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Event</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Appointments cannot be edited.</p>
+                <p>If required, delete the appointment from the patient page and create a new appointment.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+

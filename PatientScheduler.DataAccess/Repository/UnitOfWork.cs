@@ -1,4 +1,5 @@
 ﻿using PatientScheduler.DataAccess.Data;
+using PatientScheduler.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,7 @@ namespace PatientScheduler.DataAccess.Repository
             Address = new AddressRepository(_db);
             Insurance = new InsuranceRepository(_db);
             Appointment = new AppointmentRepository(_db);
+            Doctor = new DoctorRepository(_db);
         }
         
         public IPatientRepository Patient { get; private set; }
@@ -25,6 +27,8 @@ namespace PatientScheduler.DataAccess.Repository
         public IInsuranceRepository Insurance { get; private set; }
 
         public IAppointmentRepository Appointment { get; private set; }
+
+        public IDoctorRepository Doctor { get; private set; }
 
         public void Dispose()
         {

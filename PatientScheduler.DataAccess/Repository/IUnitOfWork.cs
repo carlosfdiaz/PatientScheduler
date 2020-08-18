@@ -9,8 +9,8 @@ namespace PatientScheduler.DataAccess.Repository
         IPatientRepository Patient { get; }
         IInsuranceRepository Insurance { get; }
         IAddressRepository Address { get; }
-
         IAppointmentRepository Appointment { get; }
+        IDoctorRepository Doctor { get; }
         void Save();
     }
 }

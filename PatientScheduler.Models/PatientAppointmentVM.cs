@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace PatientScheduler.Models
 {
@@ -16,5 +16,7 @@ namespace PatientScheduler.Models
 
         [Required]
         public DateTime EndTime { get; set; }
+
+        public List<SelectListItem> DrOptions { get; set; }
     }
 }

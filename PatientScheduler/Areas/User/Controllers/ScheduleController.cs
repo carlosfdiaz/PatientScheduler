@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PatientScheduler.DataAccess.Repository;
 using PatientScheduler.Models;
 using PatientScheduler.Models.Enums;
@@ -32,14 +34,26 @@ namespace PatientScheduler.Areas.User.Controllers
         {
 
             PatientAppointmentVM.Patient = _unitOfWork.Patient.Get(id);
+            PatientAppointmentVM.DrOptions = new List<SelectListItem>();
+            var options = _unitOfWork.Doctor.GetAll();
+            foreach (var option in options)
+            {
+                var selectItem = new SelectListItem
+                {
+                    Value = option.Id.ToString(),
+                    Text = option.FirstName + " " + option.LastName
+                };
+                PatientAppointmentVM.DrOptions.Add(selectItem);
+            }
+
             return View(PatientAppointmentVM);
         }
 
-        public IActionResult GetAppointments()
+        public IActionResult GetAppointments(int doctorId)
         {
-            var appointments = _unitOfWork.Appointment.GetAll(null, null, Utility.PatientProp);
+            var appointments = _unitOfWork.Appointment.GetAll(a => a.DoctorId == doctorId, null, Utility.PatientProp);
             List<CalendarEvent> calendarEvents = new List<CalendarEvent>();
-            foreach(var appointment in appointments)
+            foreach (var appointment in appointments)
             {
                 var calendarEvent = new CalendarEvent();
                 calendarEvent.Title = appointment.Patient.FirstName + " " + appointment.Patient.LastName;
@@ -54,7 +68,7 @@ namespace PatientScheduler.Areas.User.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult PostAppointment(IFormFileCollection form)
-        {           
+        {
             if (ModelState.IsValid)
             {
                 PatientAppointmentVM.Appointment.Status = (int)AppointmentStatus.Upcoming;
@@ -70,9 +84,9 @@ namespace PatientScheduler.Areas.User.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult PostDeleteAppointment(int apptId, int patientId)
         {
-            
+
             var objFromDb = _unitOfWork.Appointment.Get(apptId);
-            if(objFromDb != null)
+            if (objFromDb != null)
             {
                 _unitOfWork.Appointment.Remove(objFromDb);
                 _unitOfWork.Save();
