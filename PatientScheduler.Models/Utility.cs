@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PatientScheduler.Models
+﻿namespace PatientScheduler.Models
 {
     public static class Utility
     {
@@ -10,5 +6,6 @@ namespace PatientScheduler.Models
         public const string AddressProp = "Address";
         public const string PatientProp = "Patient";
         public const string DoctorProp = "Doctor";
+        public const string UserRole = "User";
     }
 }

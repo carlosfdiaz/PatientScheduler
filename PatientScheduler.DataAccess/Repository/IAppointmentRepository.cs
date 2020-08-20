@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Update.Internal;
-using PatientScheduler.Models;
+﻿using PatientScheduler.Models;
 
 
 namespace PatientScheduler.DataAccess.Repository

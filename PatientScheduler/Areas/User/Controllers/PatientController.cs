@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PatientScheduler.DataAccess.Repository;
 using PatientScheduler.Models;
 
 namespace PatientScheduler.Areas.User.Controllers
 {
+    [Authorize(Roles = Utility.UserRole)]
     [Area("User")]
     public class PatientController : Controller
     {
@@ -20,11 +18,6 @@ namespace PatientScheduler.Areas.User.Controllers
         public PatientController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
         }
 
         public IActionResult PatientList()

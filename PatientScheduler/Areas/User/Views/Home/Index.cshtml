@@ -1,36 +1,56 @@
-﻿@{
+﻿@model PatientAppointmentListVM
+@{
     ViewData["Title"] = "Home -";
 }
 
-<div class="container border border-success p-5 mb-4">
+<div class="container pl-0 pt-2 mb-4">
     <div class="row">
         <div class="col-6">
             <h3>Upcoming Appointments</h3>
         </div>
-        <div class="col-6 text-right text-white" >
+        <div class="col-6 text-right text-white">
             <a asp-action="Create" asp-controller="Patient" class="btn btn-info p-3"><i class="fas fa-user-plus"></i> Create New Patient</a>
         </div>
     </div>
 </div>
 <p class="lead">Today is @DateTime.Now.DayOfWeek @DateTime.Now.ToString("MMMM dd, yyyy")</p>
-<div class="row">
-    <div class="col-6">
-        <div class="card border shadow-sm">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <span class="d-block">Dr Name</span>
-                        <span class="d-block">Name:</span>
-                        <span class="d-block"><i class="far fa-calendar-alt"></i></span>
-                    </div>
-                    <div class="col-6">
-                        <span>Appointment Status</span>
+@if (Model.Appointments.Count() == 0)
+{
+    <p>There are no appointments for today.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var appointment in Model.Appointments)
+        {
+            <div class="col-lg-6 col-sm-12 p-1">
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                                <p class="mb-1">Patient</p>
+                                <p class="mb-1">Doctor</p>
+                                <p class="mb-1">Date</p>
+                                <p class="mb-1">Start Time</p>
+                                <p class="mb-1">End Time</p>
+                                <p class="mb-1">Status</p>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 pl-lg-2 pr-lg-0">
+                                <p class="mb-1">@appointment.Patient.FirstName @appointment.Patient.LastName</p>
+                                <p class="mb-1">@appointment.Doctor.FirstName @appointment.Doctor.LastName</p>
+                                <p class="mb-1">@appointment.StartTime.DayOfWeek @appointment.StartTime.ToString("MMM dd, yyyy")</p>
+                                <p class="mb-1">@appointment.StartTime.ToString("hh:mm tt")</p>
+                                <p class="mb-1">@appointment.EndTime.ToString("hh:mm tt")</p>
+                                <p class="mb-1">@Enum.Parse(typeof(PatientScheduler.Models.Enums.AppointmentStatus), appointment.Status.ToString())</p>
+                            </div>                           
+                            <div class="col-12 pl-0">
+                                <a asp-action="PatientPage" asp-controller="Patient" asp-route-id="@appointment.PatientId" class="btn btn-md btn-primary w-100" style="font-size: .8rem;">Go to Patient</a>
+                            </div>                           
+                        </div>
                     </div>
                 </div>
-
-
-
             </div>
-        </div>
+        }
     </div>
-</div>
+
+}

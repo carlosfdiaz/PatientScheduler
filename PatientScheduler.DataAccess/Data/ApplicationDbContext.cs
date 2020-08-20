@@ -15,6 +15,7 @@ namespace PatientScheduler.DataAccess.Data
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Insurance> Insurances { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
-        public DbSet <Appointment> Appointments { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     }
 }

@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using PatientScheduler.DataAccess.Data;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PatientScheduler.DataAccess.Repository;
+using PatientScheduler.Models;
+using System;
+using System.Linq;
 
 namespace PatientScheduler.Areas.User.Controllers
 {
+    [Authorize(Roles = Utility.UserRole)]
     [Area("User")]
     public class HomeController : Controller
     {
@@ -16,11 +19,14 @@ namespace PatientScheduler.Areas.User.Controllers
             
         }
 
-        public ApplicationDbContext Db { get; }
-
         public IActionResult Index()
         {
-            return View();
+            var DbF = Microsoft.EntityFrameworkCore.EF.Functions;
+            var PatientAppointmentListVM = new PatientAppointmentListVM();
+            var today = DateTime.Now.Date;
+            var nextDay = DateTime.Now.Date.AddDays(1);
+            PatientAppointmentListVM.Appointments = _unitOfWork.Appointment.GetAll(a => a.StartTime >= today && a.EndTime <= nextDay, a => a.OrderBy(a => a.StartTime), Utility.PatientProp + "," + Utility.DoctorProp);
+            return View(PatientAppointmentListVM);
         }
 
      
