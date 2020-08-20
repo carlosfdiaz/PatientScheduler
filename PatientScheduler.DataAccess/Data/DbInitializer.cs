@@ -45,6 +45,14 @@ namespace PatientScheduler.DataAccess.Data
 
             IdentityUser user = await _db.Users.FirstOrDefaultAsync(u => u.Email == "reception@pscheduler.com");
             await _userManager.AddToRoleAsync(user, Utility.UserRole);
+
+            Doctor doctor1 = new Doctor(){ FirstName = "James", LastName = "Kite", Title = "Dr"};
+            Doctor doctor2 = new Doctor() { FirstName = "Miranda", LastName = "Fernand", Title = "Dr" };
+
+            _db.Doctors.Add(doctor1);
+            _db.Doctors.Add(doctor2);
+            await _db.SaveChangesAsync();
+
         }
     }
 }
